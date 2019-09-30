@@ -18,15 +18,16 @@ exports.postCase = (req, res, next) => {
     const lat = req.body.lat;
     const lng = req.body.lng;
     const userId = req.body.userId;
-    const image = req.file
+    const image = req.body.image
+    // const image = req.file
 
     let imagePath;
     if (!image && caseType === "human") {
-        imagePath = 'images/defaultUser.jpg'
+        imagePath = 'https://34yigttpdc638c2g11fbif92-wpengine.netdna-ssl.com/wp-content/uploads/2016/09/default-user-img.jpg'
     } else if (!image && caseType === "animal") {
-        imagePath = 'images/deafaultAnimal.png'
+        imagePath = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIAB9wQIlVUILfxEDcGkvXKn3-9zQ_kTkZqSAcClsSRrHT_Sbz'
     } else {
-        imagePath = image.path
+        imagePath = image
     }
 
     if(caseType === "human"){

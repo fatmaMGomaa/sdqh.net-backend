@@ -35,7 +35,7 @@ const User = sequelize.define(
         },
         image: {
             type: Sequelize.STRING,
-            defaultValue: "images/defaultUser.jpg"
+            defaultValue: "https://34yigttpdc638c2g11fbif92-wpengine.netdna-ssl.com/wp-content/uploads/2016/09/default-user-img.jpg"
         }
     },
     {
