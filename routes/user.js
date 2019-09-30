@@ -8,6 +8,7 @@ const isAuthenticated = require('../middleware/is-auth');
 
 const router = express.Router();
 
+
 router.post('/addCase', isAuthenticated, userControllers.postCase)
 router.get('/allCases', userControllers.getAllCases)
 router.get('/singleCase/:caseId', userControllers.getSingleCase)
