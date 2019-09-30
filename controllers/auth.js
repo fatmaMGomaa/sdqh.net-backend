@@ -20,7 +20,7 @@ exports.postSignup = (req, res, next) => {
     const lastName = req.body.lastName;
     const gender = req.body.gender;
     const birthDate = req.body.birthDate;
-    const image = req.image.image
+    const image = req.body.image
     // const image = req.file
 
     // let imagePath;
