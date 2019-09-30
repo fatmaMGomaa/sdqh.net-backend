@@ -87,7 +87,9 @@ sequelize
     .sync({ force: false })
     .then(result => {
         console.log(result);
-        app.listen(8080 || 5000);
+        app.listen(8080 || 5000, function () {
+            console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+        });
     })
     .catch(err => {
         console.log(err);
