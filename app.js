@@ -84,7 +84,7 @@ Animal.hasMany(Comment);
 Comment.belongsTo(Animal, { constraints: true, onDelete: 'CASCADE' });
 
 sequelize
-    .sync({ force: true })
+    .sync({ force: false })
     .then(result => {
         console.log(result);
         app.listen(process.env.PORT || 5000);
