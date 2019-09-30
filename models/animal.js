@@ -33,7 +33,7 @@ const Animal = sequelize.define(
             allowNull: false
         },
         image: {
-            type: Sequelize.STRING,
+            type: Sequelize.TEXT,
             defaultValue: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIAB9wQIlVUILfxEDcGkvXKn3-9zQ_kTkZqSAcClsSRrHT_Sbz"
         },
         phone: Sequelize.STRING,

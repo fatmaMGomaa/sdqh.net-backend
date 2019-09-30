@@ -23,13 +23,12 @@ exports.postSignup = (req, res, next) => {
     const image = req.body.image
     // const image = req.file
 
-    // let imagePath;
-    // if (!image) {
-    //     imagePath = 'images/defaultUser.jpg'
-    // } else {
-    //     imagePath = image.path
-    //     console.log(imagePath)
-    // }
+    let imagePath;
+    if (!image) {
+        imagePath = 'https://34yigttpdc638c2g11fbif92-wpengine.netdna-ssl.com/wp-content/uploads/2016/09/default-user-img.jpg'
+    } else {
+        imagePath = image
+    }
     User.findOne({
         where: {
             email: email
@@ -51,7 +50,7 @@ exports.postSignup = (req, res, next) => {
                         password: hashPw,
                         birthDate,
                         gender,
-                        image
+                        image: imagePath
                     });
                 })
                 .then(result => {
