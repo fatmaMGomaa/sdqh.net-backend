@@ -34,7 +34,7 @@ const User = sequelize.define(
             defaultValue: 'male'
         },
         image: {
-            type: Sequelize.STRING,
+            type: Sequelize.TEXT,
             defaultValue: "https://34yigttpdc638c2g11fbif92-wpengine.netdna-ssl.com/wp-content/uploads/2016/09/default-user-img.jpg"
         }
     },
