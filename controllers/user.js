@@ -25,7 +25,7 @@ exports.postCase = (req, res, next) => {
     if (!image && caseType === "human") {
         imagePath = 'https://34yigttpdc638c2g11fbif92-wpengine.netdna-ssl.com/wp-content/uploads/2016/09/default-user-img.jpg'
     } else if (!image && caseType === "animal") {
-        imagePath = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIAB9wQIlVUILfxEDcGkvXKn3-9zQ_kTkZqSAcClsSRrHT_Sbz'
+        imagePath = 'https://i.pinimg.com/originals/14/dd/9b/14dd9bbad0c7fd09ed76c5c078e2f8d4.png'
     } else {
         imagePath = image
     }
