@@ -170,7 +170,7 @@ exports.postComment = (req, res, next) => {
 };
 exports.deleteCase = (req, res, next) => {
     const caseId = req.params.caseId;
-    const userId = req.params.userId;
+    const userId = +req.params.userId;
     const caseType = req.query.caseType;
     if (caseType === "human"){
         Human.findByPk(caseId)
