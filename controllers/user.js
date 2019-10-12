@@ -170,6 +170,7 @@ exports.postComment = (req, res, next) => {
 };
 exports.deleteCase = (req, res, next) => {
     const caseId = req.params.caseId;
+    const userId = req.params.userId;
     const caseType = req.query.caseType;
     if (caseType === "human"){
         Human.findByPk(caseId)
@@ -179,7 +180,13 @@ exports.deleteCase = (req, res, next) => {
                     error.statusCode = 404;
                     throw error;
                 }
-                return theCase.destroy();
+                if(userId === theCase.userId){
+                    return theCase.destroy();
+                }else {
+                    const error = new Error("you do not have right to delete this case");
+                    error.statusCode = 403;
+                    throw error;
+                }
             })
             .then(result => {
                 console.log(result);
@@ -196,7 +203,13 @@ exports.deleteCase = (req, res, next) => {
                     error.statusCode = 404;
                     throw error;
                 }
-                return theCase.destroy();
+                if (userId === theCase.userId) {
+                    return theCase.destroy();
+                } else {
+                    const error = new Error("you do not have right to delete this case");
+                    error.statusCode = 403;
+                    throw error;
+                }
             })
             .then(result => {
                 console.log(result);

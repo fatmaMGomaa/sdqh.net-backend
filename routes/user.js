@@ -13,6 +13,6 @@ router.post('/addCase', isAuthenticated, userControllers.postCase)
 router.get('/allCases', userControllers.getAllCases)
 router.get('/singleCase/:caseId', userControllers.getSingleCase)
 router.post('/addComment', isAuthenticated, userControllers.postComment)
-router.delete('/deleteCase/:caseId', userControllers.deleteCase);
+router.delete('/deleteCase/:caseId/:userId',  userControllers.deleteCase);
 
 module.exports = router;
