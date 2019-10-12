@@ -168,3 +168,43 @@ exports.postComment = (req, res, next) => {
             });
     }
 };
+exports.deleteCase = (req, res, next) => {
+    const caseId = req.params.caseId;
+    const caseType = req.query.caseType;
+    if (caseType === "human"){
+        Human.findByPk(caseId)
+            .then(theCase => {
+                if (!theCase) {
+                    const error = new Error('Could not find the human case.');
+                    error.statusCode = 404;
+                    throw error;
+                }
+                return theCase.destroy();
+            })
+            .then(result => {
+                console.log(result);
+                res.status(200).json({ message: 'Deleted the human case.' });
+            })
+            .catch(err => {
+                next(err);
+            });
+    } else if (caseType === "animal"){
+        Animal.findByPk(caseId)
+            .then(theCase => {
+                if (!theCase) {
+                    const error = new Error('Could not find the animal case.');
+                    error.statusCode = 404;
+                    throw error;
+                }
+                return theCase.destroy();
+            })
+            .then(result => {
+                console.log(result);
+                res.status(200).json({ message: 'Deleted the animal case.' });
+            })
+            .catch(err => {
+                next(err);
+            });
+    }
+    
+};
