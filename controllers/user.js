@@ -221,3 +221,64 @@ exports.deleteCase = (req, res, next) => {
     }
     
 };
+
+exports.editCase = (req, res, next) => {
+    const caseId = req.params.caseId;
+    const userId = +req.params.userId;
+    const caseType = req.query.caseType;
+    const name = req.body.name;
+    const area = req.body.city;
+    const address = req.body.address;
+    const uniqueSign = req.body.uniqueSign;
+    const description = req.body.description;
+    const phone = req.body.mobileNumber;
+    const image = req.body.image
+    if (caseType === "human") {
+        Human.findByPk(caseId)
+            .then(theCase => {
+                if (!theCase) {
+                    const error = new Error('Could not find the human case.');
+                    error.statusCode = 404;
+                    throw error;
+                }
+                if (userId !== theCase.userId) {
+                    const error = new Error("you do not have right to edit this case");
+                    error.statusCode = 403;
+                    throw error;
+                } else {
+                    return theCase.update({ name, area, address, uniqueSign, description, phone, image})
+                }
+            })
+            .then(result => {
+                console.log(result);
+                res.status(200).json({case: result, message: 'edited the human case.' });
+            })
+            .catch(err => {
+                next(err);
+            });
+    } else if (caseType === "animal") {
+        Animal.findByPk(caseId)
+            .then(theCase => {
+                if (!theCase) {
+                    const error = new Error('Could not find the animal case.');
+                    error.statusCode = 404;
+                    throw error;
+                }
+                if (userId !== theCase.userId) {
+                    const error = new Error("you do not have right to edit this case");
+                    error.statusCode = 403;
+                    throw error;
+                } else {
+                    return theCase.update({ species: name, area, address, uniqueSign, description, phone, image })
+                }
+            })
+            .then(result => {
+                console.log(result);
+                res.status(200).json({ case: result, message: 'edited the animal case.' });
+            })
+            .catch(err => {
+                next(err);
+            });
+    }
+
+};
