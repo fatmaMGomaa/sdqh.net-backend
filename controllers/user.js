@@ -79,6 +79,38 @@ exports.getAllCases = (req, res, next) => {
     }
 };
 
+exports.getUserCases = (req, res, next) => {
+    const userId = req.query.userId;
+    let humanCases, animalCases;
+
+    if (!userId) {
+        const error = new Error("you do not have right to get those cases");
+        error.statusCode = 403;
+        throw error;
+    }
+    Human
+        .findAll({
+            where: {userId: userId}
+        })
+        .then(result => {
+            humanCases = result;
+        })
+        .catch(error => {
+            next(error);
+        });
+    Animal
+        .findAll({
+            where: { userId: userId }
+        })
+        .then(cases => {
+            animalCases = cases;
+            return res.status(200).json({ humanCases: humanCases, animalCases: animalCases, message: "all user cases were fetched successfully" });
+        })
+        .catch(error => {
+            next(error);
+        });
+};
+
 exports.getSingleCase = (req, res, next) => {
     const caseId = req.params.caseId;
     const caseType = req.query.caseType;
