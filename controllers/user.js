@@ -123,14 +123,14 @@ exports.getSingleCase = (req, res, next) => {
                 include: [
                     {
                         model: User,
-                        attributes: ['firstName', 'lastName']
+                        attributes: ['firstName', 'lastName', 'image']
                     },{
                         model: Comment,
                         attributes: ['content', 'createdAt'],
                         include: [
                             {
                                 model: User,
-                                attributes: ['id', 'firstName', 'image'],
+                                attributes: ['id', 'firstName', 'lastName', 'image'],
                                 as: 'user'
                             }
                         ]
