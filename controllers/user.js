@@ -155,7 +155,7 @@ exports.getSingleCase = (req, res, next) => {
                         attributes: ['id', 'firstName', 'lastName', 'image']
                     }, {
                         model: Comment,
-                        attributes: ['content', 'createdAt'],
+                        attributes: ['id','content', 'createdAt'],
                         include: [
                             {
                                 model: User,
