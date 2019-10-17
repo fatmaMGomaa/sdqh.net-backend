@@ -94,17 +94,17 @@ exports.getUserCases = (req, res, next) => {
         })
         .then(result => {
             humanCases = result;
-        })
-        .catch(error => {
-            next(error);
-        });
-    Animal
-        .findAll({
-            where: { userId: userId }
-        })
-        .then(cases => {
-            animalCases = cases;
-            return res.status(200).json({ humanCases: humanCases, animalCases: animalCases, message: "all user cases were fetched successfully" });
+            Animal
+                .findAll({
+                    where: { userId: userId }
+                })
+                .then(cases => {
+                    animalCases = cases;
+                    return res.status(200).json({ humanCases: humanCases, animalCases: animalCases, message: "all user cases were fetched successfully" });
+                })
+                .catch(error => {
+                    next(error);
+                });
         })
         .catch(error => {
             next(error);
