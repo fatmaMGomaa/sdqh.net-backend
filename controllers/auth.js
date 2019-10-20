@@ -60,7 +60,7 @@ exports.postSignup = (req, res, next) => {
                             userId: result.id
                         },
                         TOKENSECRET,
-                        { expiresIn: "1h" }
+                        { expiresIn: "5h" }
                     );
                     res.status(201).json({ token: token, user: result, message: "user has been created" });
                 })
@@ -103,9 +103,76 @@ exports.postLogin = (req, res, next) => {
                     userId: loadedUser.id
                 },
                 TOKENSECRET,
-                { expiresIn: "1h" }
+                { expiresIn: "5h" }
             );
             res.status(200).json({ token: token, user: loadedUser, message: "logged in successfully" });
+        })
+        .catch(error => {
+            next(error);
+        });
+};
+
+exports.editUser = (req, res, next) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    const newPassword = req.body.newPassword;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const gender = req.body.gender;
+    const birthDate = req.body.birthDate;
+    const image = req.body.image
+
+    let imagePath;
+    if (!image) {
+        imagePath = 'https://34yigttpdc638c2g11fbif92-wpengine.netdna-ssl.com/wp-content/uploads/2016/09/default-user-img.jpg'
+    } else {
+        imagePath = image
+    }
+
+    User.findOne({where: {email: email}})
+        .then(user => {
+            if (!user) {
+                const error = new Error(`Account with this email ${email} not found.`);
+                error.statusCode = 401;
+                throw error;
+            }
+            bcrypt.compare(password, user.password)
+                .then(isEqual => {
+                    if (!isEqual) {
+                        const error = new Error("Password is incorrect.");
+                        error.statusCode = 401;
+                        throw error;
+                    }
+                    bcrypt
+                        .hash(newPassword, 10)
+                        .then(hashPw => {
+                            return user.update({
+                                firstName,
+                                lastName,
+                                password: hashPw,
+                                birthDate,
+                                gender,
+                                image: imagePath
+                            });
+                        })
+                        .then(result => {
+                            const token = jwt.sign(
+                                {
+                                    email: email,
+                                    userId: result.id
+                                },
+                                TOKENSECRET,
+                                { expiresIn: "5h" }
+                            );
+                            res.status(201).json({ token: token, user: result, message: "Your profile has been updated" });
+                        })
+                        .catch(error => {
+                            next(error);
+                        });
+                })
+                .catch(error => {
+                    next(error);
+                });
         })
         .catch(error => {
             next(error);

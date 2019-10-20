@@ -27,4 +27,17 @@ router.post('/login', [
         .isLength({ min: 5 })
 ], authControllers.postLogin)
 
+router.put('/editUser', [
+    body('email')
+        .isEmail()
+        .withMessage('Please enter a valid email.')
+        .normalizeEmail(),
+    body('password')
+        .trim()
+        .isLength({ min: 5 }),
+    body('newPassword')
+        .trim()
+        .isLength({ min: 5 })
+], authControllers.editUser)
+
 module.exports = router;
