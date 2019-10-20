@@ -27,7 +27,7 @@ router.post('/login', [
         .isLength({ min: 5 })
 ], authControllers.postLogin)
 
-router.put('/editUser', [
+router.put('/updateUser', [
     body('email')
         .isEmail()
         .withMessage('Please enter a valid email.')
