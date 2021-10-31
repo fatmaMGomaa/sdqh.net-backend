@@ -103,7 +103,7 @@ exports.postLogin = (req, res, next) => {
                     userId: loadedUser.id
                 },
                 TOKENSECRET,
-                { expiresIn: "5h" }
+                { expiresIn: "24h" }
             );
             res.status(200).json({ token: token, user: loadedUser, message: "logged in successfully" });
         })

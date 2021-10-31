@@ -79,35 +79,62 @@ exports.getAllCases = (req, res, next) => {
     }
 };
 
+exports.getUser = (req, res, next) => {
+  const userId = req.params.id;
+
+  User.findOne({where: {id: userId}})
+  .then(user => {
+    if (!user) {
+      const error = new Error(`User not found.`);
+      error.statusCode = 404;
+      throw error;
+    }
+    return res.status(200).json({ user: user, message: "user was fetched successfully" });
+  })
+  .catch(error => {
+    next(error);
+  });
+};
+
 exports.getUserCases = (req, res, next) => {
     const userId = req.query.userId;
-    let humanCases, animalCases;
+    let humanCases, animalCases, requiredUser;
 
     if (!userId) {
         const error = new Error("you do not have right to get those cases");
         error.statusCode = 403;
         throw error;
     }
-    Human
+    User.findOne({where: {id: userId}})
+    .then(user => {
+      if (!user) {
+        const error = new Error(`User not found.`);
+        error.statusCode = 404;
+        throw error;
+      }
+      requiredUser = user
+
+      Human
         .findAll({
             where: {userId: userId}
         })
         .then(result => {
-            humanCases = result;
-            Animal
-                .findAll({
-                    where: { userId: userId }
-                })
-                .then(cases => {
-                    animalCases = cases;
-                    return res.status(200).json({ humanCases: humanCases, animalCases: animalCases, message: "all user cases were fetched successfully" });
-                })
-                .catch(error => {
-                    next(error);
-                });
+          humanCases = result;
+          Animal
+            .findAll({
+              where: { userId: userId }
+            })
+            .then(cases => {
+              animalCases = cases;
+              return res.status(200).json({ user: requiredUser, humanCases: humanCases, animalCases: animalCases, message: "all user cases were fetched successfully" });
+            })
+            .catch(error => {
+              next(error);
+            });
         })
+    })
         .catch(error => {
-            next(error);
+          next(error);
         });
 };
 
