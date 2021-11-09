@@ -5,6 +5,10 @@ const { validationResult } = require('express-validator/check');
 const User = require("../models/user");
 const { TOKENSECRET } = process.env;
 
+exports.tokenValidation = (req, res, next) => {
+  res.status(200).json({msg: "valid"})
+}
+
 exports.postSignup = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -161,8 +165,7 @@ exports.editUser = (req, res, next) => {
                                     email: email,
                                     userId: result.id
                                 },
-                                TOKENSECRET,
-                                { expiresIn: "5h" }
+                                TOKENSECRET
                             );
                             res.status(201).json({ token: token, user: result, message: "Your profile has been updated" });
                         })

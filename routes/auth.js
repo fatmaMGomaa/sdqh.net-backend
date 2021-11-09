@@ -6,6 +6,8 @@ const isAuthenticated = require('../middleware/is-auth');
 
 const router = express.Router();
 
+router.get('/tokenValidation', isAuthenticated, authControllers.tokenValidation);
+
 router.post('/signup', [
     body('email')
         .isEmail()
